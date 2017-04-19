@@ -1,0 +1,18 @@
+<html>
+<title>Cam</title>
+<body align = "center">
+  <video id="player"></video>
+  <script type="text/javascript" src="./webcam.js"></script>
+  <script>
+  webcam.set({
+    width: 320,
+    height: 240,
+    image_format: 'jpeg',
+    jpeg_quality: 90,
+    flip_horiz: true
+  });
+  Webcam.attach( '#player' );
+
+  </script>
+</body>
+<html>
