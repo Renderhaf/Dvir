@@ -92,12 +92,13 @@
           dat = data[Object.keys(data)[i]]
 
           if (dat["name"] != name0){
-            
+
           ctx.fillStyle = "Black"
           ctx.fillRect(dat["x"],dat["y"],25,25)
           ctx.fill()
+          console.log(dat["name"])
           ctx.font = "15px Arial";
-          ctx.fillStyle = "Gray"
+          ctx.fillStyle = "Black"
           ctx.fillText(dat["name"], dat["x"], dat["y"] + 40);
         }
         }
