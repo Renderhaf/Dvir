@@ -96,10 +96,12 @@
           ctx.fillStyle = "Black"
           ctx.fillRect(dat["x"],dat["y"],25,25)
           ctx.fill()
-          console.log(dat["name"])
           ctx.font = "15px Arial";
-          ctx.fillStyle = "Black"
-          ctx.fillText(dat["name"], dat["x"], dat["y"] + 40);
+          ctx.fillStyle = "Gray"
+          ctx.fillText("Hello",dat["x"] + 50, dat["y"] + 50);
+          // console.log(dat["name"])
+          console.log(dat["x"], dat["y"])
+          // ctx.fillText(dat["name"],100, 200);
         }
         }
     });

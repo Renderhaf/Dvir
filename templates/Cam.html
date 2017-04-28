@@ -2,17 +2,29 @@
 <title>Cam</title>
 <body align = "center">
   <video id="player"></video>
+</br><input type="Button" id = "check" onclick="Click()" value = "Play / Pause">
   <script type="text/javascript" src="./webcam.js"></script>
   <script>
-  webcam.set({
-    width: 320,
-    height: 240,
-    image_format: 'jpeg',
-    jpeg_quality: 90,
-    flip_horiz: true
-  });
-  Webcam.attach( '#player' );
+  var video = document.getElementById('player');
+  var Can = document.getElementById("myCan");
 
+  var on = true
+  function CLick(){
+    if (on){
+      video.stop()
+      on = false
+    }else{
+      video.play()
+      on = true
+    }
+  }
+  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      // Not adding `{ audio: true }` since we only want video now
+      navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+          video.src = window.URL.createObjectURL(stream);
+          video.play()
+      });
+  }
   </script>
 </body>
 <html>
