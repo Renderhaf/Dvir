@@ -1,2 +1,164 @@
-TEST
-123
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Game Of Life</title>
+  </head>
+  <body align = "center">
+    <canvas id = "myCan" width = 500 height = 500 style="border:1px solid #000000;"></canvas>
+
+    <script>
+      var ssize = prompt("What is the canvas size?")
+      if (ssize == ""){
+        ssize = 50
+      }
+      var c = document.getElementById("myCan");
+      var ctx = c.getContext("2d");
+      var onoff = true
+      var play = false
+      var boxes = new Array(ssize*ssize);
+      var nboxes = new Array(boxes.length);
+      var sc = 0
+
+      for (i=0;i<boxes.length;i++){
+        boxes[i] = false
+        nboxes[i] = false
+      }
+      var Start = function(){
+        play = true
+      }
+      var Stop = function(){
+        play = false
+      }
+      var findloc = function(x,y){
+        var c = document.getElementById("myCan");
+        var loc = 0
+        loc += x/(c.width/ssize)
+        loc += y/(c.height/ssize) * ssize
+        // console.log(loc)
+        return(loc)
+      }
+      var Draw = function(event){
+        var x = event.x;
+        var y = event.y;
+
+        var c = document.getElementById("myCan");
+
+        x -= c.offsetLeft;
+        y -= c.offsetTop;
+
+        x = parseInt(x/(c.width/ssize))
+        x = x * c.width/ssize
+        y = parseInt(y/(c.height/ssize))
+        y = y * c.height/ssize
+
+        if (onoff){
+          ctx.fillStyle = "Black";
+        }else{
+          ctx.fillStyle = "White";
+        }
+        ctx.fillRect(x, y, c.width/ssize, c.height/ssize);
+
+        // alert("x:" + x + " y:" + y);
+
+        boxes[findloc(x,y)] = onoff
+
+        console.log(boxes[findloc(x,y)],findloc(x,y))
+      }
+      var main = function(){
+        var pm = document.getElementById("pm")
+        if (onoff){
+          pm.innerHTML = "+"
+        } else {
+          pm.innerHTML = "-"
+        }
+
+        if (play){
+          for (i=0;i<boxes.length;i++){
+            sc++
+            var x = (i % ssize) * ssize
+            var y = (parseInt(i/ssize)) * ssize
+
+
+            console.log(i)
+
+            if (boxes[i] == true){
+              alert("TEST")
+              ctx.fillStyle = "Black";
+              ctx.fillRect(x, y, c.width/ssize, c.height/ssize);
+            } else{
+              console.log(i)
+              ctx.fillStyle = "White";
+              ctx.fillRect(x, y, c.width/ssize, c.height/ssize);
+            }
+
+            for (h=0;h<boxes.length;h++){
+              boxes[h] = nboxes[h]
+            }
+
+            //checking nieghbores
+            var nbrs = 0
+            if (boxes[i-ssize-1] == true){
+              nbrs++
+            }
+            if (boxes[i-ssize] == true){
+              nbrs++
+            }
+            if (boxes[i-ssize+1] == true){
+              nbrs++
+            }
+            if (boxes[i+1] == true){
+              nbrs++
+            }
+            if (boxes[i+ssize+1] == true){
+              nbrs++
+            }
+            if (boxes[i+ssize] == true){
+              nbrs++
+            }
+            if (boxes[i+ssize-1] == true){
+              nbrs++
+            }
+            if (boxes[i-1] == true){
+              nbrs++
+            }
+            // console.log(nbrs)
+            //checking next gen
+            if (nbrs < 2 && boxes[i] == true){
+              nboxes[i] = false
+            }
+            if (nbrs > 3 && boxes[i] == true){
+              nboxes[i] = false
+            }
+            if (boxes[i] == true){
+              if (nbrs == 2 || nbrs == 3){
+                nboxes[i] == true
+              }
+            }
+            if (boxes[i] == false && nbrs == 3){
+              nboxes[i] = true
+            }
+
+          }
+        }
+      }
+      var update = setInterval(main,100)
+
+      window.addEventListener('keydown', function(event){
+        switch (event.keyCode) {
+          case 187: // +
+            onoff = true
+          break;
+
+          case 189: // -
+            onoff = false
+          break;
+        }})
+      c.addEventListener("mousedown", Draw, false);
+    </script></br>
+
+    <input type="Button" id = "Start" onclick="Start()" value = "Start">
+    <input type="Button" id = "Stop" onclick="Stop()" value = "Stop">
+    <p id = "pm">+</p>
+  </body>
+</html>
