@@ -47,3 +47,10 @@ def Cam():
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
     app.run(host='0.0.0.0', port=int(port))
+
+@app.route("/GOL/")
+def GOL():
+    return(render_template("GOL.html"))
+if __name__ == "__main__":
+    port=os.environ.get('PORT') or 5000
+    app.run(host='0.0.0.0', port=int(port))
