@@ -35,12 +35,22 @@
         main()
         play = false
       }
+
       var Start = function(){
         play = true
       }
 
       var Stop = function(){
         play = false
+      }
+
+      var Clear = function(){
+        for (g=0;g<boxes.length;g++){
+          boxes[g] = false
+          nboxes[g] = false
+        }
+        Stop()
+        One()
       }
 
       var findloc = function(x,y){
@@ -156,6 +166,14 @@
           case 189: // -
             onoff = false
           break;
+
+          case 32: // space
+            if (play){
+              Stop()
+            } else {
+              Start()
+            }
+          break;
         }})
 
       c.addEventListener("mousedown", Draw, false);
@@ -165,6 +183,7 @@
     <input type="Button" id = "Start" onclick="Start()" value = "Start">
     <input type="Button" id = "Stop" onclick="Stop()" value = "Stop">
     <input type="Button" id = "One" onclick="One()" value = "One Frame">
+    <input type="Button" id = "Clear" onclick="Clear()" value = "Clear">
     <p id = "pm">+</p>
   </body>
 </html>
