@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>SMP</title>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+</head>
+<body align = "center">
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+      var name = prompt("Please Enter your Username:")
+    	var socket = io.connect('http://localhost:5000');
+
+    	socket.on('connect', function() {
+    		socket.send(name + ' has connected!');
+      });
+
+      document.getElementById("sendbutton").addEventListener("click", function(){
+        text = document.getElementById("myMessage")
+        socket.send(name + " : " + text.value)
+        text.value = ""
+      });
+
+      socket.on('message', function(msg) {
+          if (typeof msg == "string"){
+            $("#messages").append('<li>'+msg+'</li>');
+            console.log('Received message');
+          }
+          if (typeof msg == "object"){
+            for (i in msg){
+              $("#messages").append('<li>'+msg[i]+'</li>');
+            }
+          }
+      });
+
+    });
+  </script>
+  <ul id="messages" style = "list-style: none"></ul>
+  <input type="text" id="myMessage" value="">
+  <button id="sendbutton" >Send</button>
+</body>
+</html>

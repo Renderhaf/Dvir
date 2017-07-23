@@ -3,15 +3,30 @@ from flask import Flask, render_template
 from flask import request
 from flask.json import jsonify
 import json
+from flask_socketio import SocketIO, send
 
 app = Flask(__name__)
 
 app.config['DEBUG'] = True
 app.config['HOST'] = 'localhost'
+# app.config['SECRET_KEY'] = 'akerman'
+socketio = SocketIO(app)
 
 changes = []
 moves = {}
+messages = []
 
+@socketio.on("message")
+def HandleMesssage(msg):
+    print(msg)
+    messages.append(msg)
+    send(msg,broadcast=True)
+
+@socketio.on("connect")
+def connection():
+    print("Client Connected")
+    send(messages)
+    
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -48,7 +63,12 @@ def GOL():
 @app.route("/Cam/")
 def Cam():
     return(render_template("Cam.html"))
-    
+
+@app.route("/SMP/")
+def SocketMessagePing():
+    return(render_template("SMP.html"))
+
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
     app.run(host='0.0.0.0', port=int(port))
+    socketio.run(app)
