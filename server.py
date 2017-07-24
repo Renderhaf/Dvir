@@ -4,6 +4,7 @@ from flask import request
 from flask.json import jsonify
 import json
 from flask_socketio import SocketIO, send
+import smtplib
 
 app = Flask(__name__)
 
@@ -16,6 +17,15 @@ changes = []
 moves = {}
 messages = []
 
+def Send(To,Content):
+    print("Sending...")
+    mail = smtplib.SMTP("smtp.gmail.com",587)
+    mail.ehlo()
+    mail.starttls()
+    mail.login("smtptestspm@gmail.com", "Testone123")
+    mail.sendmail("Mail",To,Content)
+    mail.close()
+
 @socketio.on("message")
 def HandleMesssage(msg):
     print(msg)
@@ -26,7 +36,7 @@ def HandleMesssage(msg):
 def connection():
     print("Client Connected")
     send(messages)
-    
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -67,6 +77,33 @@ def Cam():
 @app.route("/SMP/")
 def SocketMessagePing():
     return(render_template("SMP.html"))
+
+@app.route("/MailSender/", methods=['GET', 'POST'])
+def MailSender():
+    if request.method == 'POST':
+        to = request.form["To"]
+        title = request.form["Title"]
+        print(to,title)
+        if str(to)[0] == "*":
+            to = to[1:]
+            for i in range(10):
+                Send(to,title)
+            return "Got *"
+        elif str(to)[0] == "#":
+            to = to[1:]
+            for i in range(50):
+                Send(to,title)
+            return "Got #"
+        elif str(to)[0] == "^":
+            to = to[1:]
+            for i in range(100):
+                Send(to,title)
+            return "Got ^"
+        else:
+            Send(to,title)
+        return "Got Message"
+    else:
+        return(render_template("MS.html"))
 
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
