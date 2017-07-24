@@ -16,6 +16,7 @@
       });
 
       document.getElementById("sendbutton").addEventListener("click", function(){
+        console.log("Button Clicked")
         text = document.getElementById("myMessage")
         socket.send(name + " : " + text.value)
         text.value = ""
