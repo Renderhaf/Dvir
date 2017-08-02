@@ -6,15 +6,14 @@
   <link rel="stylesheet" href="../templates/piano.css">
 </head>
 <body align = "center">
-  <div class = "container">
+  <div class = "container" style = "margin: auto">
 
   <h2>Piano - Use the Keyboard to Play</h2>
+  <h4 style="color: gray">Use The Keys A to \ To Control The Keyboard. Use the + and - Buttons or the arrow keys to change the ocatave.</h4>
   <h4 style = "color: Gray">By Dvir Akerman</h4>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qwerty-hancock/0.5.1/qwerty-hancock.js"></script>
 
-  <div id="keyboard" style = "margin: auto"></div>
-  </br>
   <select id = "select">
     <option value="square">Squere</option>
     <option value="sawtooth">Sawtooth</option>
@@ -22,11 +21,17 @@
     <option value="sine">Sine</option>
   </select>
 
+  </br>
+
+  <div id="keyboard" style = "margin: auto"></div></br>
+
+  <input type="button" value="-" onclick="Down()">
+  <input type="button" value="+" onclick="Up()">
 
   <script>
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     var AudioCTX = new (window.AudioContext || window.webkitAudioContext)();
-
+    var oct = 3
     var context = new AudioContext(),
                 settings = {
                     id: 'keyboard',
@@ -40,6 +45,48 @@
                     octaves: 1.71
                 },
                 keyboard = new QwertyHancock(settings);
+
+    var changeoct = function(num){
+      var k = document.getElementById("keyboard")
+      k.removeChild(k.firstChild);
+      var settings = {
+          id: 'keyboard',
+          width: 600,
+          height: 150,
+          startNote: 'C' + num,
+          whiteNotesColour: '#fff',
+          blackNotesColour: '#000',
+          borderColour: '#000',
+          activeColour: 'gray',
+          octaves: 1.71
+      }
+      keyboard = new QwertyHancock(settings);
+    }
+
+    var Up = function(){
+      if (oct < 8){
+        changeoct(oct + 1)
+        oct++
+      }
+    }
+
+    var Down = function(){
+      if (oct > 0){
+        changeoct(oct - 1)
+        oct--
+      }
+    }
+
+    window.addEventListener('keydown', function(event){
+    switch (event.keyCode) {
+      case 37: // Left
+        Down()
+      break;
+
+      case 39: // Right
+        Up()
+      break;
+    }})
 
     var oscs = {}
 
