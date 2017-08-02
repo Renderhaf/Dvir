@@ -1,0 +1,69 @@
+<html>
+<title>
+  Piano Thing
+</title>
+<head>
+</head>
+<body align = "center">
+  <div class = "container">
+
+  <h2>Piano - Use the Keyboard to Play</h2>
+  <h4 style = "color: Gray">By Dvir Akerman</h4>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qwerty-hancock/0.5.1/qwerty-hancock.js"></script>
+
+  <div id="keyboard" style = "margin: auto"></div>
+
+  <select id = "select">
+    <option value="squere">Squere</option>
+    <option value="sawtooth">Sawtooth</option>
+    <option value="triangle">Triangle</option>
+    <option value="sine">Sine</option>
+  </select>
+
+  <link rel="stylesheet" href="../templates/piano.css">
+  
+  <script>
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    var AudioCTX = new (window.AudioContext || window.webkitAudioContext)();
+
+    var context = new AudioContext(),
+                settings = {
+                    id: 'keyboard',
+                    width: 600,
+                    height: 150,
+                    startNote: 'C3',
+                    whiteNotesColour: '#fff',
+                    blackNotesColour: '#000',
+                    borderColour: '#000',
+                    activeColour: 'gray',
+                    octaves: 1.71
+                },
+                keyboard = new QwertyHancock(settings);
+
+    var oscs = {}
+
+    var playNote = function(freq){
+      type = document.getElementById("select")
+      oscs[freq] = AudioCTX.createOscillator();
+
+      oscs[freq].type = type.value;
+      oscs[freq].frequency.value = freq; // value in hertz
+      oscs[freq].connect(AudioCTX.destination);
+      oscs[freq].start();
+    }
+
+    var stopNote = function(freq){
+      oscs[freq].stop()
+    }
+    keyboard.keyDown = function (note, frequency) {
+        playNote(frequency)
+    };
+
+    keyboard.keyUp = function (note, frequency) {
+        stopNote(frequency)
+    };
+  </script>
+</div>
+</body>
+</html>

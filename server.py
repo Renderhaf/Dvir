@@ -21,7 +21,7 @@ def Send(To,Content):
     print("Sending...")
     mail = smtplib.SMTP("smtp.gmail.com",587)
     mail.ehlo()
-    mail.starttls()
+    # mail.starttls()
     mail.login("smtptestspm@gmail.com", "Testone123")
     mail.sendmail("Mail",To,Content)
     mail.close()
@@ -104,6 +104,11 @@ def MailSender():
         return "Got Message"
     else:
         return(render_template("MS.html"))
+    
+
+@app.route("/PianoThing/")
+def Piano():
+    return(render_template("Piano.html"))
 
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
