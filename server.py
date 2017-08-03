@@ -26,16 +26,16 @@ def Send(To,Content):
     mail.sendmail("Mail",To,Content)
     mail.close()
 
-@socketio.on("message")
-def HandleMesssage(msg):
-    print(msg)
-    messages.append(msg)
-    send(msg,broadcast=True)
-
-@socketio.on("connect")
-def connection():
-    print("Client Connected")
-    send(messages)
+# @socketio.on("message")
+# def HandleMesssage(msg):
+#     print(msg)
+#     messages.append(msg)
+#     send(msg,broadcast=True)
+#
+# @socketio.on("connect")
+# def connection():
+#     print("Client Connected")
+#     send(messages)
 
 @app.route("/")
 def index():
