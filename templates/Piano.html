@@ -3,7 +3,6 @@
   Piano Thing
 </title>
 <head>
-  <link rel="stylesheet" href="../templates/piano.css">
 </head>
 <body align = "center">
   <div class = "container" style = "margin: auto">
@@ -23,7 +22,8 @@
 
   </br>
 
-  <div id="keyboard" style = "margin: auto"></div></br>
+  <div id="keyboard"></div></br>
+  <!-- <link rel="stylesheet" href="../static/piano.css"> -->
 
   <input type="button" value="-" onclick="Down()">
   <input type="button" value="+" onclick="Up()">
@@ -42,7 +42,8 @@
                     blackNotesColour: '#000',
                     borderColour: '#000',
                     activeColour: 'gray',
-                    octaves: 1.71
+                    octaves: 1.71,
+                    position: "absolute"
                 },
                 keyboard = new QwertyHancock(settings);
 

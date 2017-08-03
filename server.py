@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['HOST'] = 'localhost'
 # app.config['SECRET_KEY'] = 'akerman'
-socketio = SocketIO(app)
+# socketio = SocketIO(app)
 
 changes = []
 moves = {}
@@ -104,13 +104,17 @@ def MailSender():
         return "Got Message"
     else:
         return(render_template("MS.html"))
-    
+
 
 @app.route("/PianoThing/")
 def Piano():
     return(render_template("Piano.html"))
 
+@app.route("/Donate/")
+def donate():
+    return(render_template("donate.html"))
+
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
     app.run(host='0.0.0.0', port=int(port))
-    socketio.run(app)
+    # socketio.run(app)
