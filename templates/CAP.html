@@ -1,0 +1,31 @@
+<html>
+<title>
+  Captcha
+</title>
+<body align="center">
+  <h2>Just ReCaptcha!</h2>
+  </br>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+  <script>
+    var cap = ""
+    var CorCap = function(res){
+      car = res
+    }
+
+    var click = function(){
+      alert("Hi")
+      console.log("hi")
+      h = document.getElementById("ans").innerHTML
+      if (cap.length != 0){
+        h = "Captcha Validated!"
+      }
+      else {
+        h = "Please Fill Out the Captcha Correctly!"
+      }
+    }
+  </script>
+  <div class="g-recaptcha" data-sitekey="6LeBXiwUAAAAANeL9YZFExSkCbjVNNiEdD_HnTiS" data-callback="CorCap"></div>
+  <input type="button" value="Varify" onclick="click">
+  <h3 id = "ans" style="color:gray"></h3>
+</body>
+</html>

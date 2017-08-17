@@ -114,6 +114,10 @@ def Piano():
 def donate():
     return(render_template("donate.html"))
 
+@app.route("/Cap/")
+def Cap():
+    return(render_template("CAP.html"))
+
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
     app.run(host='0.0.0.0', port=int(port))
