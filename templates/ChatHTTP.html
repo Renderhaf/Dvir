@@ -1,0 +1,75 @@
+<html>
+<title>
+  Chat Room
+</title>
+<body align = "center">
+  <h2>HTTP Chat Room</h2>
+  <h4 id = "gru" style = "color:gray">Group: Main</h4>
+  <button  onclick="Join()">Join</button>
+  <button onclick="Create()">Create</button>
+  <ul id="messages" style = "list-style: none"></ul>
+  <input type="text" id="myMessage" value="">
+  <button onclick="Send()" >Send</button>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script>
+    var name = prompt("Please Enter your Username:")
+    var text = document.getElementById("myMessage")
+    var list = document.getElementById("messages")
+    var GruText = document.getElementById("gru")
+    var messages = []
+    var Group = "Main"
+
+    window.addEventListener('keydown', function(event){
+    switch (event.keyCode) {
+      case 13: // Enter
+        Send()
+      break;
+    }})
+
+    var Update = function(){
+      $.post("/ChatRoom/",{"Send" : "False", "Group" : Group , "JC" : ""}, function(data, status){
+          if (messages != data){
+            messages = data
+            list.innerHTML = ""
+            for (i=0;i<data.length;i++){
+              $("#messages").append('<li>'+data[i]+'</li>');
+            }
+          }
+      });
+    }
+    var inter = setInterval(Update, 1000)
+
+    var Send = function(){
+      $.post("/ChatRoom/",{"Send" : "True", "Group": Group, "Text": name + " : " + text.value}, function(data, status){
+          console.log(data)
+          text.value = ""
+      });
+    }
+
+    var Join = function(){
+      $.post("/ChatRoom/",{"Send" : "False", "JC": "J", "Group": prompt("Group Name: ")}, function(data, status){
+          if (data == "-1"){
+            alert("Group does not exist!")
+          } else {
+            Group = data
+            GruText.innerHTML = "Group: " + Group
+            list.innerHTML = ""
+          }
+      });
+    }
+
+    var Create = function(){
+      $.post("/ChatRoom/",{"Send" : "False", "JC": "C", "Group": prompt("Group Name: ")}, function(data, status){
+          if (data == "-1"){
+            alert("Group already exists!")
+          } else {
+            Group = data
+            GruText.innerHTML = "Group: " + Group
+            list.innerHTML = ""
+          }
+      });
+    }
+  </script>
+</body>
+</html>

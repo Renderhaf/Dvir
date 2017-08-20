@@ -3,19 +3,16 @@ from flask import Flask, render_template
 from flask import request
 from flask.json import jsonify
 import json
-from flask_socketio import SocketIO, send
 import smtplib
 
 app = Flask(__name__)
 
 app.config['DEBUG'] = True
 app.config['HOST'] = 'localhost'
-# app.config['SECRET_KEY'] = 'akerman'
-# socketio = SocketIO(app)
 
 changes = []
 moves = {}
-messages = []
+messages = {}
 
 def Send(To,Content):
     print("Sending...")
@@ -25,17 +22,6 @@ def Send(To,Content):
     mail.login("smtptestspm@gmail.com", "Testone123")
     mail.sendmail("Mail",To,Content)
     mail.close()
-
-# @socketio.on("message")
-# def HandleMesssage(msg):
-#     print(msg)
-#     messages.append(msg)
-#     send(msg,broadcast=True)
-#
-# @socketio.on("connect")
-# def connection():
-#     print("Client Connected")
-#     send(messages)
 
 @app.route("/")
 def index():
@@ -74,9 +60,6 @@ def GOL():
 def Cam():
     return(render_template("Cam.html"))
 
-@app.route("/SMP/")
-def SocketMessagePing():
-    return(render_template("SMP.html"))
 
 @app.route("/MailSender/", methods=['GET', 'POST'])
 def MailSender():
@@ -118,7 +101,40 @@ def donate():
 def Cap():
     return(render_template("CAP.html"))
 
+@app.route("/ChatRoom/", methods=['GET', 'POST'])
+def CHRM():
+    if request.method == 'POST':
+        print(messages)
+        if request.form["Send"] == "True":
+            if request.form["Group"] in messages:
+                messages[request.form["Group"]].append(request.form["Text"])
+            else:
+                messages[request.form["Group"]] = []
+                messages[request.form["Group"]].append(request.form["Text"])
+
+            return request.form["Text"]
+
+        elif request.form["Send"] == "False":
+            if request.form["JC"] == "J":
+                if request.form["Group"] in messages:
+                    return request.form["Group"]
+                else:
+                    return jsonify("-1")
+            elif request.form["JC"] == "C":
+                if request.form["Group"] in messages:
+                    return jsonify("-1")
+                else:
+                    messages[request.form["Group"]] = []
+                    return request.form["Group"]
+
+            else:
+                if request.form["Group"] in messages:
+                    return jsonify(messages[request.form["Group"]])
+                else:
+                    return jsonify([""])
+    else:
+        return(render_template("ChatHTTP.html"))
+
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
     app.run(host='0.0.0.0', port=int(port))
-    # socketio.run(app)
