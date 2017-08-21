@@ -135,6 +135,10 @@ def CHRM():
     else:
         return(render_template("ChatHTTP.html"))
 
+@app.route("/WhiteNoise/")
+def WN():
+    return(render_template("WhiteNoise.html"))
+
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
     app.run(host='0.0.0.0', port=int(port))
