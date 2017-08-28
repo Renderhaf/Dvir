@@ -7,6 +7,7 @@
   <h4 id = "gru" style = "color:gray">Group: Main</h4>
   <button  onclick="Join()">Join</button>
   <button onclick="Create()">Create</button>
+  <input type="checkbox" id="notify">Notifications</input>
   <ul id="messages" style = "list-style: none"></ul>
   <input type="text" id="myMessage" value="">
   <button onclick="Send()" >Send</button>
@@ -17,8 +18,10 @@
     var text = document.getElementById("myMessage")
     var list = document.getElementById("messages")
     var GruText = document.getElementById("gru")
+    var Noti = document.getElementById("notify")
     var messages = []
     var Group = "Main"
+    var start = false
 
     window.addEventListener('keydown', function(event){
     switch (event.keyCode) {
@@ -29,7 +32,20 @@
 
     var Update = function(){
       $.post("/ChatRoom/",{"Send" : "False", "Group" : Group , "JC" : ""}, function(data, status){
-          if (messages != data){
+          if (messages[messages.length - 1] != data[data.length - 1]){
+            if (Notification.permission != "granted"){
+              Notification.requestPermission()
+            }
+            if (Noti.checked == true && start == true && document.hasFocus() == false){
+              if (Notification.permission == "granted"){
+                  var Not = new Notification("HTTP Chat Room",{
+                    body:"You Have New Messages",
+                    requireInteraction: false,
+                    Tag:"New"
+                  })
+                }
+              }
+
             messages = data
             list.innerHTML = ""
             for (i=0;i<data.length;i++){
@@ -37,6 +53,7 @@
             }
           }
       });
+      start = true
     }
     var inter = setInterval(Update, 1000)
 
