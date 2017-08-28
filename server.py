@@ -103,12 +103,12 @@ def Cap():
 
 @app.route("/ChatRoom/", methods=['GET', 'POST'])
 def CHRM():
+    global messages
     if request.method == 'POST':
         print(messages)
         if request.form["Send"] == "True":
             if request.form["Group"] in messages:
                 if request.form["Text"] == "Admin : ClearMSG":
-                    global messages
                     messages = {}
                 else:
                     messages[request.form["Group"]].append(request.form["Text"])
