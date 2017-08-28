@@ -107,7 +107,11 @@ def CHRM():
         print(messages)
         if request.form["Send"] == "True":
             if request.form["Group"] in messages:
-                messages[request.form["Group"]].append(request.form["Text"])
+                if request.form["Text"] == "Admin : ClearMSG":
+                    global messages
+                    messages = {}
+                else:
+                    messages[request.form["Group"]].append(request.form["Text"])
             else:
                 messages[request.form["Group"]] = []
                 messages[request.form["Group"]].append(request.form["Text"])
