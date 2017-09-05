@@ -143,6 +143,10 @@ def CHRM():
 def WN():
     return(render_template("WhiteNoise.html"))
 
+@app.route("/GA/")
+def GA():
+    return(render_template("GoogleAds.html"))
+
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
     app.run(host='0.0.0.0', port=int(port))
