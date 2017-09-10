@@ -23,12 +23,22 @@ var ssize = prompt("What is the canvas size? (default 50)")
     main()
     play = false
   }
+
   var Start = function(){
     play = true
   }
 
   var Stop = function(){
     play = false
+  }
+
+  var Clear = function(){
+    for (g=0;g<boxes.length;g++){
+      boxes[g] = false
+      nboxes[g] = false
+    }
+    Stop()
+    One()
   }
 
   var findloc = function(x,y){
@@ -143,6 +153,14 @@ var ssize = prompt("What is the canvas size? (default 50)")
 
       case 189: // -
         onoff = false
+      break;
+
+      case 32: // space
+        if (play){
+          Stop()
+        } else {
+          Start()
+        }
       break;
     }})
 
