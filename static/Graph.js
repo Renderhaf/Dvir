@@ -3,6 +3,7 @@ var errortext = document.getElementById("error")
 var c = document.getElementById("myCan");
 var ctx = c.getContext("2d");
 
+
   var CenterLines = function(){
     ctx.fillStyle = "Gray"
     ctx.fillRect(0,c.height / 2, c.width ,1);
