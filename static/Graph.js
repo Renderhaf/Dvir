@@ -3,7 +3,6 @@ var errortext = document.getElementById("error")
 var c = document.getElementById("myCan");
 var ctx = c.getContext("2d");
 
-
   var CenterLines = function(){
     ctx.fillStyle = "Gray"
     ctx.fillRect(0,c.height / 2, c.width ,1);
@@ -27,19 +26,24 @@ var ctx = c.getContext("2d");
     try {
       if (eq.value != ""){
 
-        for (i= -c.width / 2 ; i < c.width / 2 ; i++){
+        ctx.beginPath();
+        ctx.moveTo(map(-c.width / 2, -c.width / 2, c.width / 2,0, c.width), c.height / 2 - math.eval(eq.value,{"X" : -c.width / 20, "x" :-c.width / 20}));
 
-          var x = i / 10
-          var val = math.eval(eq.value,{"X" : x, "x" : x})
+        for (i = -c.width / 2 + 1; i < c.width / 2 ; i++){
 
-          ctx.fillStyle = "Blue"
-          ctx.fillRect(map(i, -c.width / 2, c.width / 2,0, c.width), c.height / 2 - val, 3,3);
+            var x = i / 10
+            var val = math.eval(eq.value,{"X" : x, "x" : x})
 
+            ctx.strokeStyle = document.getElementById("colorpicker").value
+            ctx.lineWidth = 3
+            ctx.lineTo(map(i, -c.width / 2, c.width / 2,0, c.width), c.height / 2 - val);
         }
+
+        ctx.stroke()
 
       } else {
 
-        clearctx()
+          clearctx()
 
       }
 
