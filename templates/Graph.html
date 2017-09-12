@@ -9,10 +9,15 @@
   <h4 style="color:gray">Type The Equation In The Text Field Below. Use X.</h4>
   <canvas width = "1000" height="500" style="border:1px solid #000000;" id = "myCan"></canvas>
   </br>
-  <input type="text" id = "Eq" value=""><input type="color" id="colorpicker" value="#0000ff">
+  <ul id="EqList" style="list-style:none">
+    <li>
+      <input type="text" id = "Eq" value=""><input type="color" id="co0" value="#0000ff">
+    </list>
+  </ul>
+  <input type="button" value=" + " onclick="Add()">
   </br>
   <h5 id = "error"> </h5>
   <script src="../static/math.js"></script>
-  <script src="../static/Graph.js"></script>
+  <script src="../static/Graph.js?versoin=2.0.0"></script>
 </body>
 </html>
