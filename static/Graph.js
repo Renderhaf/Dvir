@@ -44,7 +44,7 @@ var cleareqs = 0
     cleareqs = 0
     clearctx()
 
-    // try {
+    try {
         for (h=0;h<eqs.length;h++){
           if (eqs[h].value != ""){
 
@@ -77,11 +77,11 @@ var cleareqs = 0
         if (cleareqs == eqs.length){
           clearctx()
         }
-    // }
-    //
-    // catch(err) {
-    //   errortext.innerHTML = err.toString()
-    // }
+    }
+
+    catch(err) {
+      errortext.innerHTML = err.toString()
+    }
     CenterLines()
   }
   var time_ = setInterval(Main,100)
