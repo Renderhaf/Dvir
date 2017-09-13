@@ -8,12 +8,15 @@
   <div align = "left">
     <input type="button" value="New" onclick="New()">
     <input type="button" value="Save" onclick="Save()">
-    <input title="Open" type="file" id="fileInput" style = "input-style:none;">
+    <input type="button" value="Speak" onclick = "Speak()">
+    <input title="Open" type="file" id="fileInput" style = "" data-buttonText="Open">
   </div>
+</br>
   <div align="center">
     <textarea rows="40" cols="150" spellcheck="true" id = "text"> </textarea>
   </div>
-  <script src="../static/Docs.js?version=0.1"></script>
+  <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+  <script src="../static/Docs.js?version=0.4"></script>
   <script src="../static/FileSaver.js"></script>
 
 </body>

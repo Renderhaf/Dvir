@@ -21,6 +21,10 @@ var New = function(){
   text.value = ""
 }
 
+var Speak = function(){
+  responsiveVoice.speak(text.value);
+}
+
 fileInput.addEventListener('change', function(e) {
     var file = fileInput.files[0];
     var textType = /text.*/;
