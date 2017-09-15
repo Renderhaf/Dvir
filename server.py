@@ -151,9 +151,9 @@ def GA():
 def Graph():
     return(render_template("Graph.html"))
 
-@app.route("/Docs/")
+@app.route("/NPS/")
 def Docs():
-    return(render_template("Documents.html"))
+    return(render_template("NPS.html"))
 
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
