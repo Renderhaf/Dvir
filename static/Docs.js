@@ -1,5 +1,7 @@
 var text = document.getElementById("text")
 var fileInput = document.getElementById('fileInput');
+var codenum = 1
+var codingMode = ""
 
 var Save = function(){
   var blob = new Blob([text.value], {type: "text/plain;charset=utf-8"});
@@ -21,8 +23,29 @@ var New = function(){
   text.value = ""
 }
 
+var Open = function(){
+  $('#fileInput').click();
+}
+
 var Speak = function(){
   responsiveVoice.speak(text.value);
+}
+
+var Code = function(){
+  if (codenum % 2 != 0){
+    codingMode = new Behave({
+      textarea: text
+    });
+    
+    document.getElementById("codebutton").value = "Coding Mode (ON)"
+
+  } else {
+
+    codingMode.destroy()
+    document.getElementById("codebutton").value = "Coding Mode (OFF)"
+
+  }
+  codenum ++
 }
 
 fileInput.addEventListener('change', function(e) {
