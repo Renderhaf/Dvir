@@ -4,6 +4,7 @@ from flask import request
 from flask.json import jsonify
 import json
 import smtplib
+import requests
 
 app = Flask(__name__)
 
