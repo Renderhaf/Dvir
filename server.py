@@ -155,6 +155,20 @@ def Graph():
 def Docs():
     return(render_template("NPS.html"))
 
+@app.route("/Crypto/", methods=['GET', 'POST'])
+def Crypto():
+    if request.method == 'POST':
+        print(request.form)
+
+        r = requests.get(request.form["url"])
+        data = json.loads(r.text)
+
+        print(data)
+
+        return jsonify(data)
+    else:
+        return(render_template("Crypto.html"))
+
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
     app.run(host='0.0.0.0', port=int(port))
