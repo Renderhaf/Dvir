@@ -34,7 +34,7 @@ var Open = function(){
 }
 
 var Speak = function(){
-  responsiveVoice.speak(text.value,"Russian Female");
+  responsiveVoice.speak(text.value,document.getElementById("Voice").value);
 }
 
 var Code = function(){
