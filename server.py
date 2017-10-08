@@ -170,6 +170,10 @@ def Crypto():
     else:
         return(render_template("Crypto.html"))
 
+@app.route("/PicTxt/")
+def PicTxt():
+    return(render_template("PictureText.html"))
+
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
     app.run(host='0.0.0.0', port=int(port))

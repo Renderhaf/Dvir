@@ -1,0 +1,15 @@
+<html>
+<title>PIC2TXT</title>
+<body align = "center">
+
+  <input type="button" onclick="totext()" value="To Text">
+  <input type="button" value="To Image" onclick="clickfile()">
+  <input type="file" id="fileinput" style = "display:none;"><input type="button" value="Import Picture" onclick="clickImage()">
+  <input type="file" id="textfileinput" onchange="toImage()" style="display:none;">
+
+</br></br>
+  <canvas width = "400" height="400" id="myCan" style="border:1px solid #000000"></canvas>
+  <script src="../static/FileSaver.js"></script>
+  <script src="../static/PicTxt.js?version=1.0"></script>
+</body>
+</html>
