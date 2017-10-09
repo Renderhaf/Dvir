@@ -17,10 +17,33 @@ document.getElementById("fileinput").addEventListener('change', input, false);
   }
 
   function totext(){
-    var data = c.width + "," + c.height + "|" +ctx.getImageData(0,0,c.width,c.height).data
 
-    var blob = new Blob([data.toString()], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, "TextImage.txt");
+    var imgdt = ctx.getImageData(0,0,c.width,c.height).data
+    var comp = confirm("Do You Want Compression?")
+
+    if (comp){
+      for (i=0;i<imgdt.length / 4;i++){
+        imgdt[i * 4] = parseInt(imgdt[i * 4] / 10)
+        imgdt[i * 4 + 1] = parseInt(imgdt[i * 4 + 1] / 10)
+        imgdt[i * 4 + 2] = parseInt(imgdt[i * 4 + 2] / 10)
+      }
+    }
+
+    var data = c.width + "," + c.height + "|" + imgdt
+    if (comp){
+      data = "*" + data
+    }
+
+    if (confirm("Do you want to save?")){
+      var blob = new Blob([data.toString()], {type: "text/plain;charset=utf-8"});
+      var name = prompt("File Name:")
+      if (name == ""){
+        name = "TextImage.txt"
+      } else {
+        name = name + ".txt"
+      }
+      saveAs(blob, name);
+    }
   }
 
   function clickfile(){
@@ -40,7 +63,10 @@ document.getElementById("fileinput").addEventListener('change', input, false);
     reader.readAsText(file);
     reader.onload = function(e) {
           text = reader.result.toString();
-
+          var comp = (text.indexOf("*") != -1)
+          if (comp){
+            text = text.substr(1,text.length)
+          }
 
           if (text.indexOf("|") != -1){
 
@@ -63,10 +89,18 @@ document.getElementById("fileinput").addEventListener('change', input, false);
                 var x = i % w
                 var y = (i - i % w) / w
 
-                var r = imagedata[i * 4]
-                var g = imagedata[i * 4 + 1]
-                var b = imagedata[i * 4 + 2]
-                var a = imagedata[i * 4 + 3]
+                if (comp) {
+                  var r = imagedata[i * 4] * 10
+                  var g = imagedata[i * 4 + 1] * 10
+                  var b = imagedata[i * 4 + 2] * 10
+                  var a = imagedata[i * 4 + 3]
+                }
+                else {
+                  var r = imagedata[i * 4]
+                  var g = imagedata[i * 4 + 1]
+                  var b = imagedata[i * 4 + 2]
+                  var a = imagedata[i * 4 + 3]
+                }
 
                 ctx.fillStyle = "rgba(" + r + "," + g + "," + b  + "," + a + ")"
                 ctx.fillRect(x,y,1,1)
