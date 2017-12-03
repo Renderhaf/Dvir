@@ -1,0 +1,25 @@
+<html>
+<title>TABS</title>
+<body align = "center">
+  <h2>Tab Opener</h2>
+  <h4 style="color:gray">Write the number of tabs that you want in the box, then click the button to open them. Make sure to enable pop-ups in your browser.</h4>
+  <input type="button" value="Start Opening Tabs" id="bb" onclick="Click()"><br/>
+  Number Of Tabs : <input type="text" value="" id = "tabs">
+  <script>
+    function Click(){
+      //check if the browser is chrome or edge
+      var isIE = (false || !!document.documentMode)
+      if ((!isIE && !!window.StyleMedia) || isIE) {
+        alert("Sorry, This Web Browser Is Not Supported!")
+        return 0;
+      }
+      var num = document.getElementById("tabs")
+      var tabs = parseInt(num.value)
+
+      for (var i = 0; i < tabs; i++){
+        var win = window.open('');
+      }
+    }
+  </script>
+</body>
+</html>
