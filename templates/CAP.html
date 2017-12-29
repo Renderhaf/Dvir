@@ -2,8 +2,20 @@
 <title>
   Captcha
 </title>
+<head>
+  <style>
+    /* already defined in bootstrap4 */
+    .text-xs-center {
+        text-align: center;
+    }
+
+    .g-recaptcha {
+        display: inline-block;
+    }
+</style>
+</head>
 <body align="center">
-  <h2>Just ReCaptcha!</h2>
+  <h2>Just Captcha!</h2>
   </br>
   <script src='https://www.google.com/recaptcha/api.js'></script>
   <script>
@@ -25,7 +37,19 @@
     }
   </script>
   <div class="g-recaptcha" data-sitekey="6LeBXiwUAAAAANeL9YZFExSkCbjVNNiEdD_HnTiS" data-callback="CorCap"></div>
-  <input type="button" value="Varify" onclick="click">
+
+  <form action="?" method="post">
+  	<!-- other form fields -->
+
+  	<script src="https://authedmine.com/lib/captcha.min.js" async></script>
+  	<div class="coinhive-captcha" data-hashes="1024" data-key="LSnFj5d9AxsxSHHTSVlNM21mgS02vAn7">
+  		<em>Loading Captcha...<br>
+  		If it doesn't load, please disable Adblock!</em>
+  	</div>
+
+  	<!-- <input type="submit" value="Submit"/> -->
+</form>
+
   <h3 id = "ans" style="color:gray"></h3>
 </body>
 </html>
