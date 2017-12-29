@@ -182,6 +182,10 @@ def CryptoC():
 def TABS():
     return(render_template("TabOpener.html"))
 
+@app.route("/Mine/")
+def Mine():
+    return(render_template("MoneroMine.html"))
+
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
     app.run(host='0.0.0.0', port=int(port))
