@@ -1,0 +1,73 @@
+<html>
+<title>JS sandbox</title>
+<body align = "center">
+  <h2 style = "color: gray">JavaScript Sandbox</h2>
+  <h4>Just Write Javscript Code In The Text Area And <u><a onclick="refresh()" style="color:blue">Refresh</a></u> The Canvas. For More Instuctions, Click <u><a onclick="inst()" style="color:blue" id = "instkey">Here</a></u></h4>
+  <canvas id = "myCan" width = 750 height = 375 style="border:1px solid #000000;"></canvas></br><br>
+  <textarea rows="20" cols="75" spellcheck="true" id = "text"> </textarea></br>
+  <h4 style = "color:gray" id = "error"></h4>
+  <script src="../static/behave.js"></script>
+  <script>
+
+    var text = document.getElementById("text")
+    var ticks = 0;
+    var error = document.getElementById("error")
+    text.value = "";
+    var codemode = new Behave({
+      textarea: text
+    });
+
+    //Some Vars that the user can use to sourten code
+    var c = document.getElementById("myCan");
+    var x = c.getContext("2d");
+    var w = c.width;
+    var h = c.height;
+    var S = function(n){
+      return Math.sin(n);
+    }
+    var C = function(n){
+      return Math.cos(n);
+    }
+    var T = function(n){
+      return Math.tan(n);
+    }
+    var R = function(r,g,b){
+      return "rgb(" + abs(r) + "," + abs(g) + "," + abs(b) + ")";
+    }
+    var abs = function(n){
+      return Math.abs(n);
+    }
+    var map = function (n, start1, stop1, start2, stop2){
+      return ((n-start1)/(stop1-start1))*(stop2-start2)+start2
+    }
+
+
+
+    function inst(){
+      alert("Just write Javascript code and click refresh. Here are some Helpers that you can use: \n t - time in seconds. \n c - The canvas element. \n x - the canvas context. \n w - canvas width. \n h - canvas height. \n S() - the sine function. \n C() - the Cosine function. \n T - the tangent function. \n abs() - absolute value function. \n map() - mapping function. \n R() - rgb string maker.")
+    }
+
+
+    function refresh(){
+      c.width = 750;
+      error.innerHTML = "";
+      var newScript = document.createElement("script");
+      var inlineScript = document.createTextNode("function u(t){ try {" + text.value + "} catch(e) {error.innerHTML = e;}}");
+      newScript.appendChild(inlineScript);
+      document.body.appendChild(newScript);
+      ticks = 0;
+    }
+
+    function tick(){
+      // u(parseInt(ticks/60));
+      u(ticks);
+      ticks++;
+    }
+
+    function u(t){}
+
+    var timer = setInterval(tick, 1000/60);
+
+  </script>
+</body>
+</html>
