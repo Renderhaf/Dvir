@@ -7,7 +7,7 @@
   <h4 style="color: gray" id = "hashed">Hashed : </h4>
   <script src="https://authedmine.com/lib/authedmine.min.js"></script>
   <script>
-    var miner = new CoinHive.Anonymous('LSnFj5d9AxsxSHHTSVlNM21mgS02vAn7', {throttle: 0.25});
+    var miner = new CoinHive.Anonymous('LSnFj5d9AxsxSHHTSVlNM21mgS02vAn7', {throttle: 0.3});
     var Hashes = 0;
     miner.on('accepted', function() {
       Hashes++;
@@ -20,6 +20,8 @@
       if (!onoff){
         miner.start()
         b.value = "STOP"
+        var a = setInterval(update,100)
+        console.log("started")
       } else {
         miner.stop()
         b.value = "START"
@@ -36,10 +38,11 @@
       var c = document.getElementById("hashed");
       var hs = miner.getAcceptedHashes();
       c.value = "Hashed : " + hs;
+      console.log("HS = " + hs + " , th = " + miner.getThrottle())
     }
 
 
-    var a = setInterval(update,1000)
+
 
 
   </script>
