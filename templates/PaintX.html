@@ -1,0 +1,67 @@
+<html>
+<title>PaintX</title>
+<body>
+  <canvas id="myCan" style="border:1px solid #000000;" align="center"></canvas></br>
+  <input type="range" min="1" max="10" onchange="lineChange()" id="linewidth" value="1">
+  <input type="color" value="#000000" id="colorpicker" onchange="cchange()">
+  <script>
+    var oldx = 0;
+    var oldy = 0;
+
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+
+    var c = document.getElementById("myCan");
+    var x = c.getContext("2d");
+
+    c.width = w-20;
+    c.height = h-50;
+
+    c.addEventListener("mousedown", mouseD);
+
+    c.addEventListener("mouseup", mouseR);
+    c.addEventListener("mouseout", mouseR);
+
+    function getMousePos(canvas, evt) {
+      var rect = canvas.getBoundingClientRect();
+      return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+      };
+    }
+
+    function mouseR(){
+      c.removeEventListener("mousemove", mouseM);
+      oldx = 0;
+      oldy = 0;
+    }
+
+    function mouseM (e){
+        var mouse = getMousePos(c, e);
+        x.fillStyle = "Black";
+
+        if (oldy == 0 && oldx == 0) {oldx = mouse["x"]; oldy = mouse["y"]}; // Lines
+        x.beginPath();
+        x.moveTo(oldx,oldy);
+        x.lineTo(mouse["x"],mouse["y"]);
+        x.stroke();
+        oldx = mouse["x"];
+        oldy = mouse["y"];
+    }
+
+    function mouseD (e){
+      c.addEventListener("mousemove", mouseM);
+    }
+
+    function lineChange(){
+      var lr = document.getElementById("linewidth");
+      x.lineWidth=parseInt(lr.value);
+    }
+
+    function cchange(){
+      var cp = document.getElementById("colorpicker");
+      x.strokeStyle = cp.value;
+    }
+  </script>
+</body>
+</html>

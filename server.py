@@ -190,6 +190,10 @@ def Mine():
 def JsBox():
     return(render_template("jsSandBox.html"))
 
+@app.route("/PaintX")
+def PaintX():
+    return(render_template("PaintX.html"))
+
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
     app.run(host='0.0.0.0', port=int(port))
