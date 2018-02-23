@@ -12,7 +12,7 @@ class Player {
     this.x += x * this.mult
     this.y += y * this.mult
   }
-  }
+}
 class Bullet {
   constructor(x,y,speed,damage){
     this.x = x

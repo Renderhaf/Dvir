@@ -1,0 +1,50 @@
+<html><head><title>Seeking Squere</title>
+</head><body>
+  <script src="../static/Rect.js"></script>
+  <canvas id="myCan" style="border:1px solid #000000;" align="center" width="818" height="874"></canvas><br>
+  <script>
+    var oldx = 0;
+    var oldy = 0;
+
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+
+    var c = document.getElementById("myCan");
+    var ctx = c.getContext("2d");
+
+    c.width = w-20;
+    c.height = h-50;
+
+    c.addEventListener("mousemove", cang);
+
+    function getMousePos(canvas, evt) {
+      var rect = canvas.getBoundingClientRect();
+      return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+      };
+    }
+
+    var rw = 40;
+    var rh = 15;
+    var rect = new Rect(w/2-rw/2,h/2-rh/2,rw,rh);
+    
+    var a = 0;
+    function Draw(){
+      c.width = c.width;
+      rect.seek();
+      rect.update();
+      a = rect.XYtoAng(rect.Xspeed,rect.Yspeed);
+      rect.angRect(a);
+    }
+    function cang(e){
+      var m = getMousePos(c,e);
+      rect.targetX = m["x"];
+      rect.targetY = m['y'];
+    }
+
+    var inter = setInterval(Draw,10);
+
+  </script>
+
+</body></html>
