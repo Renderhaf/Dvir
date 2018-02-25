@@ -10,8 +10,8 @@ class Rect{
         this.Yspeed = 0;
         this.Xacc = 0;
         this.Yacc = 0;
-        this.maxS = 3.2;
-        this.maxP = 0.025;
+        this.maxS = 3;
+        this.maxP = 0.03;
         this.accdiv = 0.0001;
         this.closeF = 0.99;
     }
