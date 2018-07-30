@@ -1,0 +1,74 @@
+<html>
+<title>Pendulum Simulator</title>
+<body align="center">
+  <canvas style="border: 1px solid black" width="1000" height="750" id = "myCan"></canvas>
+  <script>
+    var c = document.getElementById("myCan");
+    var ctx = c.getContext("2d");
+
+    ctx.translate(c.width/2,c.height/2);
+
+    var len = 250;
+    var a = 0;
+    var acc = 0.0;
+    var speed = 0.0;
+    var xb = 0.0;
+    var yb = 0.0;
+
+    var map = function(n, start1, stop1, start2, stop2) {
+      return ((n-start1)/(stop1-start1))*(stop2-start2)+start2;
+    };
+
+    function getMousePos(canvas, evt) {
+      var rect = canvas.getBoundingClientRect();
+      return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+      };
+    }
+
+    c.onmousedown = function(){
+      c.onmousemove = function(e){
+        m = getMousePos(c,e);
+        var x = m['x'] - c.width/2;
+        var y = m['y'] - c.height/2;
+        a = Math.atan2(y,x);
+        acc = 0.0;
+        speed = 0.0;
+      }
+    }
+    c.onmouseup = function(){
+      c.onmousemove = null;
+    }
+
+    function draw(){
+
+      ctx.clearRect(-c.width/2,-c.height/2,c.width,c.height);
+
+      //Make Rope
+      xb = Math.cos(a) * len;
+      yb = Math.sin(a) * len;
+
+      //Draw Rope
+      ctx.beginPath();
+      ctx.moveTo(0,0);
+      ctx.lineTo(xb,yb);
+      ctx.stroke();
+
+      //Draw Weight
+      ctx.beginPath();
+      ctx.arc(xb,yb,20,Math.PI*2,false);
+      ctx.fill();
+
+      //Physics
+      acc = -0.01 * Math.sin(a-Math.PI/2);
+      a += speed;
+      speed += acc;
+      speed *= map(len,50,250,0.97,0.991);
+
+      window.requestAnimationFrame(draw);
+    }
+    window.requestAnimationFrame(draw);
+  </script>
+</body>
+</html>

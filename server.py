@@ -198,6 +198,10 @@ def PaintX():
 def Seek():
     return(render_template("Seek.html"))
 
+@app.route("/Pend")
+def Pend():
+    return(render_template("pend.html"))
+
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000
     app.run(host='0.0.0.0', port=int(port))
