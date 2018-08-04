@@ -1,0 +1,71 @@
+<html>
+<title>Partical Attraction</title>
+<style>
+  HTML, body {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+  }
+</style>
+<body>
+  <canvas width="100" height="100" id="myCan"></canvas>
+  <script src="../static/part.js"></script>
+  <script>
+    var c = document.getElementById("myCan");
+    var ctx = c.getContext("2d");
+
+    c.width  = window.innerWidth;
+    c.height = window.innerHeight;
+
+    var w = c.width;
+    var h = c.height;
+
+    var bsize = 2;
+
+    var ps = []
+
+    var m = [0,0];
+
+    var dist = prompt("Drag Distance (Default - 100) : ");
+    if (dist == "") {dist = 100;} else {dist = parseInt(dist)}
+
+    var amount = prompt("Amount Of Particals (Default - 500) : ");
+    if (amount == "") {amount = 500;} else {amount = parseInt(amount)}
+
+    function getMousePos(canvas, evt) {
+      var rect = canvas.getBoundingClientRect();
+      return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+      };
+    }
+
+    c.onmousemove = function(e){
+      mouse = getMousePos(c,e);
+      m = [mouse['x'], mouse['y']]
+    }
+
+    for (var i = 0; i < amount; i++){
+      ps.push(new Partical(parseInt( Math.random() * w ), parseInt( Math.random() * h )));
+    }
+
+    function draw(){
+      ctx.clearRect(0,0,c.width,c.height);
+
+      for (var i = 0; i < ps.length; i++){
+        ctx.fillRect(ps[i].x, ps[i].y, bsize, bsize)
+      }
+
+      for (var i = 0; i < ps.length; i++){
+        if (Math.abs(Math.hypot(ps[i].x - m[0], ps[i].y - m[1])) < dist){
+          ps[i].seek(m[0],m[1]);
+        }
+        ps[i].update();
+      }
+
+      window.requestAnimationFrame(draw);
+    }
+    window.requestAnimationFrame(draw);
+  </script>
+</body>
+</html>
