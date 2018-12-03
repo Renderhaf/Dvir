@@ -109,30 +109,29 @@ def CHRM():
         print(messages)
         if request.form["Send"] == "True":
             if request.form["Group"] in messages:
-                if request.form["Text"] == "Admin : ClearMSG":
+                if request.form["Text"] == "Admin : ClearMSG": #Clear Command
                     messages = {}
                 else:
-                    messages[request.form["Group"]].append(request.form["Text"])
-            else:
+                    messages[request.form["Group"]].append(request.form["Text"]) #Main Send
+            else: #Prevent empty chat bug
                 messages[request.form["Group"]] = []
                 messages[request.form["Group"]].append(request.form["Text"])
 
             return request.form["Text"]
 
         elif request.form["Send"] == "False":
-            if request.form["JC"] == "J":
+            if request.form["JC"] == "J": #Join Chat
                 if request.form["Group"] in messages:
                     return request.form["Group"]
                 else:
                     return jsonify("-1")
-            elif request.form["JC"] == "C":
+            elif request.form["JC"] == "C": #Create Chat
                 if request.form["Group"] in messages:
                     return jsonify("-1")
                 else:
                     messages[request.form["Group"]] = []
                     return request.form["Group"]
-
-            else:
+            else: #Update messages
                 if request.form["Group"] in messages:
                     return jsonify(messages[request.form["Group"]])
                 else:

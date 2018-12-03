@@ -1,5 +1,16 @@
 <html>
-<title>PaintX</title>
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-103081845-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-103081845-1');
+  </script>
+  <title>PaintX</title>
+</head>
 <body>
   <canvas id="myCan" style="border:1px solid #000000;" align="center"></canvas></br>
   <input type="range" min="1" max="10" onchange="lineChange()" id="linewidth" value="1">
