@@ -47,7 +47,7 @@ def Spot():
         else:
             print(request.form)
             changes.append(request.form)
-            print(changes)
+            # print(changes)
             return ""
     else:
         print("Returning render canavs")
@@ -106,7 +106,7 @@ def Cap():
 def CHRM():
     global messages
     if request.method == 'POST':
-        print(messages)
+        # print(messages)
         if request.form["Send"] == "True":
             if request.form["Group"] in messages:
                 if request.form["Text"] == "Admin : ClearMSG": #Clear Command
@@ -208,6 +208,10 @@ def PartAtt():
 @app.route("/DragNDrop")
 def DragNDrop():
     return(render_template("DragNDrop.html"))
+
+@app.route("/PIDRect")
+def PIDRect():
+    return(render_template("PIDmouseseek.html"))
 
 if __name__ == "__main__":
     port=os.environ.get('PORT') or 5000

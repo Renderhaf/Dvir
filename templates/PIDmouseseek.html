@@ -1,0 +1,126 @@
+<html>
+    <head>
+        <title>PID Mouse Seeker</title>
+        <style>
+            table,td{
+                border:1px solid #000000;
+                border-collapse: collapse;
+                text-align: center;
+            }
+            .Ks, p{
+                margin: 5px;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <script src="../static/PIDRect.js"></script>
+        <canvas id="myCan" style="border:1px solid #000000;" align="center" width="818" height="874"></canvas><br><br>
+        <div align="center">
+            <table>
+                <tr>
+                    <td><input type="text" placeholder="KP" onchange="handleKchange(this.value, 0)" value="0" class="Ks"/></td>
+                    <td><input type="text" placeholder="KI" onchange="handleKchange(this.value, 1)" value="0" class="Ks"/></td>
+                    <td><input type="text" placeholder="KD" onchange="handleKchange(this.value, 2)" value="0" class="Ks"/></td>
+                    <td><p>-</p></td>
+                </tr>
+                <tr>
+                    <td><p id="xp">0</p></td>
+                    <td><p id="xi">0</p></td>
+                    <td><p id="xd">0</p></td>
+                    <td><p id="xpid">0</p></td>
+                </tr>
+                <tr>
+                    <td><p id="yp">0</p></td>
+                    <td><p id="yi">0</p></td>
+                    <td><p id="yd">0</p></td>
+                    <td><p id="ypid">0</p></td>
+                </tr>
+            </table></br>
+            <input type="button" onclick="reset()" value="reset"/>
+        </div>
+        <script>
+            var framenum = 0;
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+            var c = document.getElementById("myCan");
+            var ctx = c.getContext("2d");
+            c.width = w-20;
+            c.height = h-200;
+            c.addEventListener("mousemove", cang);
+
+            var kp = 0;
+            var ki = 0;
+            var kd = 0;
+
+            function getMousePos(canvas, evt) {
+                var rect = canvas.getBoundingClientRect();
+                return {
+                    x: evt.clientX - rect.left,
+                    y: evt.clientY - rect.top
+                };
+            }
+
+            var rw = 40;
+            var rh = 15;
+            var rect = new Rect(c.width/2-rw/2,c.height/2-rh/2,rw,rh);
+            
+            var a = 0;
+            
+            function Draw(){
+                framenum++;
+                c.width = c.width;
+                vals = rect.seek(kp,ki,kd);
+                if (framenum % 10 == 0){
+                    putvalues(vals);
+                }
+                rect.update();
+                a = rect.XYtoAng(rect.Xspeed,rect.Yspeed);
+                rect.angRect(a);
+            }
+
+            function cang(e){
+                var m = getMousePos(c,e);
+                rect.targetX = m["x"];
+                rect.targetY = m['y'];
+            }
+            var inter = setInterval(Draw,10);
+
+            function handleKchange(val, num){
+                switch (num){
+                    case 0:
+                        kp = parseFloat(val);
+                        break;
+                    case 1:
+                        ki = parseFloat(val);
+                        break;
+                    case 2:
+                        kd = parseFloat(val);
+                        break;
+                }
+            }
+            function reset(){
+                rect = new Rect(c.width/2-rw/2,c.height/2-rh/2,rw,rh);
+                kp,ki,kd = 0;
+
+            }
+            function putvalues(values){
+                framenum = 0;
+                v = values.slice(0);
+                for (var i = 0; i < v.length; i++){
+                    v[i] = parseInt(v[i]*1000)/1000;
+                }
+
+                document.getElementById("xp").innerHTML = v[0];
+                document.getElementById("xi").innerHTML = v[1];
+                document.getElementById("xd").innerHTML = v[2];
+                document.getElementById("yp").innerHTML = v[3];
+                document.getElementById("yi").innerHTML = v[4];
+                document.getElementById("yd").innerHTML = v[5];
+                document.getElementById("xpid").innerHTML = v[6];
+                document.getElementById("ypid").innerHTML = v[7];
+
+            }
+        </script>
+    </body>
+</html>
