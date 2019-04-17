@@ -52,13 +52,13 @@ class Rect{
         var xerror = this.targetX - this.x;
         var xp = KP * (xerror);
         var xi = KI * (this.Isumx);
-        var xd = KD * (xerror - this.olderrx);
+        var xd = KD * (this.olderrx - xerror);
         var xpid = xp + xi + xd;
 
         var yerror = this.targetY - this.y;
         var yp = KP * (yerror);
         var yi = KI * (this.Isumy);
-        var yd = KD * (yerror - this.olderry);
+        var yd = KD * (this.olderry - yerror);
         var ypid = yp + yi + yd;
 
         xpid = this.tops(xpid, 1);
