@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en" style="width:100% !important;">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <!-- Design -->
+        <style>
+            .container.py-5{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                -webkit-transform: translate(-50%, -50%);
+            } 
+            .card{
+                border: 1px solid black;
+            }
+            #scroll{
+                overflow-y: scroll;
+            }
+
+            #scroll::-webkit-scrollbar-track {
+                background-color: #F5F5F5;
+            }
+
+            #scroll::-webkit-scrollbar
+            {
+                width: 1px;
+                background-color: #F5F5F5;
+            }
+
+            #scroll::-webkit-scrollbar-thumb
+            {
+                background-color: #000000;
+            }
+        </style>
+
+        <script src="https://kit.fontawesome.com/c796c62e1c.js"></script>
+
+          <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-103081845-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-103081845-1');
+        </script>
+
+        <title>Homepage</title>
+    </head>
+    <body style="width:100% !important;">
+
+        <div class="row justify-content-xs-center h-100">
+            <div class="container col-md-3 py-5" id="slide2" style="display:none">
+                <div class="card scrollbar scrollbar-black bordered-black square thin" id = "scrolldiv">
+                    <div class="card-body force-overflow" id="scroll">
+                        <h4 >Some Projects:</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item" id="linkitem"><a href="https://spotpixle.herokuapp.com">SPOT</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/Agar">Agar</a></li>
+                            <!-- <li class="list-group-item" id="linkitem"><a class="btn disabled" href="#">Camera - work in progress</a></li> -->
+                            <li class="list-group-item" id="linkitem"><a href="/GOL/">Game of Life</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/PianoThing/">Messing With Sound</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/Donate">Donate</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/Cap">Captcha</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="https://renderhaf.github.io/HFDAP/">High Frequency Audio Data Protocol</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/ChatRoom/">HTTP Chat Room</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/WhiteNoise/">Full Screen White Noise</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/GA/">Google Ads</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/Graph/">Graphing</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/NPS/">Notepad #</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/Crypto/">Crypto</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="https://renderhaf.github.io/CamEffects/">Camera Effects</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/PicTxt/">Picture and Text</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/CryptoCount/">CryptoCounter</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/TABS/">Tab Opener</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/jsSandbox/">Javascript SandBox</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="https://kakakoin.herokuapp.com">KakaKoin</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="https://renderhaf.github.io/Powdered/">Powdered</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/PaintX">PaintX</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/Seek">Seeker</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="https://akerfast.herokuapp.com">Node.js Menu</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="https://renderhaf.github.io/SoundAnalyzer/">SoundAnalyzer</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/Pend">Pendulum Simulator</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/PartAtt">Partical Attraction</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/DragNDrop">Drag And Drop</a></li>
+                            <li class="list-group-item" id="linkitem"><a href="/PIDRect">PID seeker</a></li>
+                            <li class="list-group-item" id="linkitem" onclick="clicked(false)"><a href="#">Go Back To Home 🡆</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="container col-md-3 py-5" id="slide1" style="display:none">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Dvir Akerman</h4>
+                        <p>Full Time Student</p>
+                        <p>Contact Through <u onclick="giveEmail()">Email</u> or <u onclick="givePhone()">Phone</u></p>
+                        <u onclick="clicked(true)">Some Web Projects</u>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <script>
+            var slides = [document.getElementById("slide1"),document.getElementById("slide2")];
+            slides[0].style = "visibility:visible;opacity: 1;";
+            slides[1].style = "visibility:hidden;opacity: 0;";
+
+            function clicked(front){
+                console.log(front);
+                if (front){
+                    front = !front;
+                    slides[0].style = "visibility: hidden; opacity: 0; transition: visibility 0s, opacity 0.5s ease-in;"
+                    slides[1].style = "visibility: visible; opacity: 1; transition: visibility 0s, opacity 0.5s ease-in;"
+                } else {
+                    front = !front;
+                    slides[0].style = "visibility: visible; opacity: 1; transition: visibility 0s, opacity 0.5s ease-in;"
+                    slides[1].style = "visibility: hidden; opacity: 0; transition: visibility 0s, opacity 0.5s ease-in;"
+                }
+            }
+
+            var mobile = false;
+            if ($(window).width() < 768) {
+                mobile = true;
+                document.getElementById("scrolldiv").style = "height:90vh !important;";
+            } else {
+                document.getElementById("scrolldiv").style = "height:50vh !important;";
+            }
+
+            function giveEmail(){
+                if (mobile){
+                    window.location = "mailto:dvir.akerman@gmail.com";
+                } else {
+                    copyTextToClipboard("dvir.akerman@gmail.com");
+                    alert("Address Copied To Clipboard!");
+                }
+            }
+
+            function givePhone(){
+                if (mobile){
+                    window.location = "tel: +972546948922";
+                } else {
+                    copyTextToClipboard("+972546948922");
+                    alert("Phone Copied To Clipboard!");
+                }
+            }
+
+            function copyTextToClipboard(text) {
+                var textArea = document.createElement("textarea");
+
+                textArea.style.position = 'fixed';
+                textArea.style.top = 0;
+                textArea.style.left = 0;
+                textArea.style.width = '2em';
+                textArea.style.height = '2em';
+                textArea.style.padding = 0;
+                textArea.style.border = 'none';
+                textArea.style.outline = 'none';
+                textArea.style.boxShadow = 'none';
+                textArea.style.background = 'transparent';
+                textArea.value = text;
+
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+
+                try {
+                    var successful = document.execCommand('copy');
+                    var msg = successful ? 'successful' : 'unsuccessful';
+                    console.log('Copying text command was ' + msg);
+                } catch (err) {
+                    console.log('Oops, unable to copy');
+                }
+
+                document.body.removeChild(textArea);
+            }
+        </script>
+    </body>
+</html>

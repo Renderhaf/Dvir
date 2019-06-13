@@ -26,7 +26,7 @@ def Send(To,Content):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("newindex.html")
 
 @app.route("/Agar/", methods=['GET', 'POST'])
 def Agar():
