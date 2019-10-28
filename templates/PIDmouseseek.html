@@ -13,10 +13,16 @@
         </style>
     </head>
     
-    <body>
+    <body style="display: grid;">
         <script src="../static/PIDRect.js"></script>
-        <canvas id="myCan" style="border:1px solid #000000;" align="center" width="818" height="874"></canvas><br><br>
-        <div align="center">
+        <script src="../static/drawChart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+        
+        <div style="position: relative;">
+            <canvas id="myCan" style="border:1px solid #000000; position: absolute;" align="center" width="818" height="874"></canvas>
+            <canvas id="chartCan" style="border:1px solid #000000; position: absolute;" align="center" width="818" height="874"></canvas>
+        </div>
+        <div align="center" style="position: relative;">
             <table>
                 <tr>
                     <td><input type="text" placeholder="KP" onchange="handleKchange(this.value, 0)" value="0" class="Ks"/></td>
@@ -37,7 +43,8 @@
                     <td><p id="ypid">0</p></td>
                 </tr>
             </table></br>
-            <input type="button" onclick="reset()" value="reset"/>
+            <!-- <input type="button" onclick="reset()" value="reset"/> -->
+            <br><br>
         </div>
         <script>
             var framenum = 0;
@@ -46,13 +53,59 @@
             var c = document.getElementById("myCan");
             var ctx = c.getContext("2d");
             c.width = w-20;
-            c.height = h-200;
+            c.height = h-20;
             c.addEventListener("mousemove", cang);
+
+            var chartCan = document.getElementById("chartCan");
+            chartCan.width = 300;
+            chartCan.height = 300;
+
+            chartInfo = {lable : "X Error", borderC : "rgba(0,0,0,1)", backgroundC: "rgba(0,0,0,0.3)"};
+            var chart = new EChart(chartCan, chartInfo);
+
+            var rw = 40;
+            var rh = 15;
+            var rect = new Rect(c.width/2-rw/2,c.height/2-rh/2,rw,rh);
+            
+            var a = 0;
 
             var kp = 0;
             var ki = 0;
             var kd = 0;
 
+            c.addEventListener("click", pauseplay);
+            var isPaused = false;
+
+            var inter = setInterval(Draw,10);
+
+            function spliceChart(data){
+                chart.addData(0,data);
+                chart.addLable("");
+
+                if (chart.configInfo.data.labels.length > 100){
+                    chart.configInfo.data.datasets[0].data.shift();
+                    chart.configInfo.data.labels.shift();
+                }
+
+                chart.update();
+            }
+
+            function pauseplay(e){
+                if (isPaused){
+                    inter = setInterval(Draw,10);
+                    isPaused = !isPaused;
+
+                    chart.clearData(0);
+                    chart.clearLables();
+                    chart.update();
+                } else {
+                    clearInterval(inter);
+                    
+                    isPaused = !isPaused;
+                }
+            }
+
+            
             function getMousePos(canvas, evt) {
                 var rect = canvas.getBoundingClientRect();
                 return {
@@ -61,18 +114,14 @@
                 };
             }
 
-            var rw = 40;
-            var rh = 15;
-            var rect = new Rect(c.width/2-rw/2,c.height/2-rh/2,rw,rh);
-            
-            var a = 0;
-            
             function Draw(){
                 framenum++;
                 c.width = c.width;
                 vals = rect.seek(kp,ki,kd);
-                if (framenum % 10 == 0){
+                if (framenum % 5 == 0){
                     putvalues(vals);
+                    let err = Math.hypot(rect.xerror, rect.yerror);
+                    spliceChart(-rect.xerror);
                 }
                 rect.update();
                 a = rect.XYtoAng(rect.Xspeed,rect.Yspeed);
@@ -84,7 +133,6 @@
                 rect.targetX = m["x"];
                 rect.targetY = m['y'];
             }
-            var inter = setInterval(Draw,10);
 
             function handleKchange(val, num){
                 switch (num){
@@ -102,6 +150,10 @@
             function reset(){
                 rect = new Rect(c.width/2-rw/2,c.height/2-rh/2,rw,rh);
                 kp,ki,kd = 0;
+
+                chart.clearData(0);
+                chart.clearLables();
+                chart.update();
 
             }
             function putvalues(values){

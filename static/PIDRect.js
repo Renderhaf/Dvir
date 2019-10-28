@@ -14,6 +14,8 @@ class Rect{
         this.Isumy = 0;
         this.olderrx = 0;
         this.olderry = 0;
+        this.xerror;
+        this.yerror;
     }
     angRect(a){
         ctx.save();
@@ -49,16 +51,16 @@ class Rect{
     }
 
     seek(KP, KI, KD){
-        var xerror = this.targetX - this.x;
-        var xp = KP * (xerror);
+        this.xerror = this.targetX - this.x;
+        var xp = KP * (this.xerror);
         var xi = KI * (this.Isumx);
-        var xd = KD * (this.olderrx - xerror);
+        var xd = KD * (this.olderrx - this.xerror);
         var xpid = xp + xi + xd;
 
-        var yerror = this.targetY - this.y;
-        var yp = KP * (yerror);
+        this.yerror = this.targetY - this.y;
+        var yp = KP * (this.yerror);
         var yi = KI * (this.Isumy);
-        var yd = KD * (this.olderry - yerror);
+        var yd = KD * (this.olderry - this.yerror);
         var ypid = yp + yi + yd;
 
         xpid = this.tops(xpid, 1);
@@ -67,10 +69,10 @@ class Rect{
         this.Xacc = xpid;
         this.Yacc = ypid;
 
-        this.olderrx = xerror;
-        this.olderry = yerror;
-        this.Isumx += xerror;
-        this.Isumy += yerror;
+        this.olderrx = this.xerror;
+        this.olderry = this.yerror;
+        this.Isumx += this.xerror;
+        this.Isumy += this.yerror;
         return [xp,xi,xd,yp,yi,yd,xpid,ypid];
     }
     
