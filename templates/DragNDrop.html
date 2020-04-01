@@ -3,6 +3,8 @@
 <body align="center">
   <canvas style="border: 1px solid black" id="myCan" width="1000" height="750"></canvas><br/>
   Gravity: <input type="checkbox" id="gravity" onchange="gravchange(this)" checked = "true" ><br/>
+  <input type="range" min=0 max=1 step=0.05 onchange="constantOfFriction=parseFloat(this.value)" value=0.85>
+  <input type="range" min=0 max=1 step=0.05 onchange="bounceConstant=parseFloat(this.value)" value=0.3>
   <script>
     var c = document.getElementById("myCan");
     var ctx = c.getContext("2d");
@@ -17,6 +19,9 @@
     var lastMouseLocation = []
     var lastMouseCheck = 0;
     var timediff = 1000/60;
+
+    var constantOfFriction = 0.85;
+    var bounceConstant = 0.3;
 
     function getMillis(){
       return new Date().getTime();
@@ -78,9 +83,11 @@
       c.onmousemove = null;
       grav = 1;
       lastMouseCheck = 0;
-      console.log("X: " + mouseSpeed[0] + "  Y:" + mouseSpeed[1]);
       boxSpeed[0] = mouseSpeed[0];
       boxSpeed[1] = mouseSpeed[1];
+
+      mouseSpeed[0] = 0;
+      mouseSpeed[1] = 0;
     }
 
     function gravchange(cb){
@@ -95,16 +102,28 @@
         boxSpeed[1] += grav;
         if (box[1] + boxs + boxSpeed[1] >= c.height){ //down
           box[1] = c.height - boxs;
-          boxSpeed[1] = -boxSpeed[1] * 0.3
-        } else if (box[1] + boxSpeed[1] <= 0){ //up
+          boxSpeed[1] = -boxSpeed[1] * bounceConstant
+
+          boxSpeed[0] *= constantOfFriction;
+          box[0] += boxSpeed[0];
+        } if (box[1] + boxSpeed[1] <= 0){ //up
           box[1] = 0;
-          boxSpeed[1] = -boxSpeed[1] * 0.3
-        } else if (box[0] + boxSpeed[0] <= 0){ //left
+          boxSpeed[1] = -boxSpeed[1] * bounceConstant
+
+          boxSpeed[0] *= constantOfFriction;
+          box[0] += boxSpeed[0];
+        } if (box[0] + boxSpeed[0] <= 0){ //left
           box[0] = 0;
-          boxSpeed[0] = -boxSpeed[0] * 0.3
-        } else if (box[0] + boxs + boxSpeed[0] >= c.width){ //right
+          boxSpeed[0] = -boxSpeed[0] * bounceConstant
+
+          boxSpeed[1] *= constantOfFriction;
+          box[1] += boxSpeed[1];
+        } if (box[0] + boxs + boxSpeed[0] >= c.width){ //right
           box[0] = c.width - boxs;
-          boxSpeed[0] = -boxSpeed[0] * 0.3
+          boxSpeed[0] = -boxSpeed[0] * bounceConstant
+
+          boxSpeed[1] *= constantOfFriction;
+          box[1] += boxSpeed[1];
         } else {
           box[1] += boxSpeed[1];
           box[0] += boxSpeed[0];
