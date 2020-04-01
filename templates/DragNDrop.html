@@ -21,6 +21,7 @@
     var lastMouseLocation = []
     var lastMouseCheck = 0;
     var timediff = 1000/60;
+    var isDragging = false;
 
     var constantOfFriction = 0.85;
     var bounceConstant = 0.3;
@@ -69,6 +70,7 @@
     c.onmousedown = function(e){
       m = getMousePos(c,e);
       if (m["x"] > box[0] && m["x"] < box[0]+boxs && m["y"] > box[1] && m["y"] < box[1]+boxs){
+        isDragging = true;
         offset = [m["x"]-box[0],m["y"]-box[1]]
         grav = 0;
         document.getElementById("gravitySlider").value = 0;
@@ -84,14 +86,17 @@
 
     c.onmouseup = function(e){
       c.onmousemove = null;
-      grav = lastGrav;
-      document.getElementById("gravitySlider").value = lastGrav;
-      lastMouseCheck = 0;
-      boxSpeed[0] = mouseSpeed[0];
-      boxSpeed[1] = mouseSpeed[1];
-
-      mouseSpeed[0] = 0;
-      mouseSpeed[1] = 0;
+      if (isDragging){
+        grav = lastGrav;
+        document.getElementById("gravitySlider").value = lastGrav;
+        lastMouseCheck = 0;
+        boxSpeed[0] = mouseSpeed[0];
+        boxSpeed[1] = mouseSpeed[1];
+        
+        mouseSpeed[0] = 0;
+        mouseSpeed[1] = 0;
+        isDragging = false;
+      }
     }
 
     function gravchange(cb){
