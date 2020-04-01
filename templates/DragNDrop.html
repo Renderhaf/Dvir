@@ -8,9 +8,48 @@
     var ctx = c.getContext("2d");
     var grav = 1;
     var boxs = 100;
-    var box = [c.width/2 - boxs/2,0,0,0];
+    var boxSpeed = [0,0];
+    var box = [c.width/2 - boxs/2,0]
     var offset = [0,0];
     var isgrav = true;
+
+    var mouseSpeed = [0,0];
+    var lastMouseLocation = []
+    var lastMouseCheck = 0;
+    var timediff = 1000/60;
+
+    function getMillis(){
+      return new Date().getTime();
+    }
+
+    function clamp(val, max){
+      if (val > max) {return max}
+      else if (val < -max) {return -max}
+      else {return val}
+    }
+
+    function checkMouseSpeed(mouseLocation, time){
+        if (lastMouseCheck != 0){
+          let dt = time - lastMouseCheck;
+          let dx = mouseLocation["x"] - lastMouseLocation[0];
+          let dy = mouseLocation["y"] - lastMouseLocation[1];
+
+          dx /= dt;
+          dy /= dt;
+
+          let slowdown = 1.5;
+          let max = 30;
+
+          dx *= timediff / slowdown;
+          dy *= timediff / slowdown;
+
+          mouseSpeed[0] = clamp(dx,max);
+          mouseSpeed[1] = clamp(dy,max);
+        }
+        lastMouseCheck = time;
+        lastMouseLocation[0] = mouseLocation["x"]
+        lastMouseLocation[1] = mouseLocation["y"]
+    }
 
     function getMousePos(canvas, evt) {
       var rect = canvas.getBoundingClientRect();
@@ -19,22 +58,29 @@
         y: evt.clientY - rect.top
       };
     }
+
     c.onmousedown = function(e){
       m = getMousePos(c,e);
       if (m["x"] > box[0] && m["x"] < box[0]+boxs && m["y"] > box[1] && m["y"] < box[1]+boxs){
         offset = [m["x"]-box[0],m["y"]-box[1]]
         grav = 0;
-        box[2] = 0;
+        boxSpeed = [0,0]
         c.onmousemove = function(e){
           m = getMousePos(c,e);
+          checkMouseSpeed(m, getMillis());
           box[0] = m["x"]-offset[0];
           box[1] = m["y"]-offset[1];
         }
       }
     }
+
     c.onmouseup = function(e){
       c.onmousemove = null;
       grav = 1;
+      lastMouseCheck = 0;
+      console.log("X: " + mouseSpeed[0] + "  Y:" + mouseSpeed[1]);
+      boxSpeed[0] = mouseSpeed[0];
+      boxSpeed[1] = mouseSpeed[1];
     }
 
     function gravchange(cb){
@@ -46,19 +92,28 @@
 
       //gravity
       if (isgrav){
-        box[2] += grav;
-        if (box[1] + boxs + box[2] >= c.height){
+        boxSpeed[1] += grav;
+        if (box[1] + boxs + boxSpeed[1] >= c.height){ //down
           box[1] = c.height - boxs;
-          box[2] = -box[2] * 0.3
+          boxSpeed[1] = -boxSpeed[1] * 0.3
+        } else if (box[1] + boxSpeed[1] <= 0){ //up
+          box[1] = 0;
+          boxSpeed[1] = -boxSpeed[1] * 0.3
+        } else if (box[0] + boxSpeed[0] <= 0){ //left
+          box[0] = 0;
+          boxSpeed[0] = -boxSpeed[0] * 0.3
+        } else if (box[0] + boxs + boxSpeed[0] >= c.width){ //right
+          box[0] = c.width - boxs;
+          boxSpeed[0] = -boxSpeed[0] * 0.3
         } else {
-          box[1] += box[2];
+          box[1] += boxSpeed[1];
+          box[0] += boxSpeed[0];
         }
       }
 
       ctx.fillRect(box[0],box[1],boxs,boxs);
-      window.requestAnimationFrame(draw);
     }
-    window.requestAnimationFrame(draw);
+    setInterval(draw, timediff);
   </script>
 </body>
 </html>
