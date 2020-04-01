@@ -5,10 +5,12 @@
   Gravity: <input type="checkbox" id="gravity" onchange="gravchange(this)" checked = "true" ><br/>
   <input type="range" min=0 max=1 step=0.05 onchange="constantOfFriction=parseFloat(this.value)" value=0.85>
   <input type="range" min=0 max=1 step=0.05 onchange="bounceConstant=parseFloat(this.value)" value=0.3>
+  <input type="range" min=0 max=1 step=0.05 onchange="grav=parseFloat(this.value); lastGrav=parseFloat(this.value)" value=1 id="gravitySlider">
   <script>
     var c = document.getElementById("myCan");
     var ctx = c.getContext("2d");
     var grav = 1;
+    var lastGrav = 1;
     var boxs = 100;
     var boxSpeed = [0,0];
     var box = [c.width/2 - boxs/2,0]
@@ -69,6 +71,7 @@
       if (m["x"] > box[0] && m["x"] < box[0]+boxs && m["y"] > box[1] && m["y"] < box[1]+boxs){
         offset = [m["x"]-box[0],m["y"]-box[1]]
         grav = 0;
+        document.getElementById("gravitySlider").value = 0;
         boxSpeed = [0,0]
         c.onmousemove = function(e){
           m = getMousePos(c,e);
@@ -81,7 +84,8 @@
 
     c.onmouseup = function(e){
       c.onmousemove = null;
-      grav = 1;
+      grav = lastGrav;
+      document.getElementById("gravitySlider").value = lastGrav;
       lastMouseCheck = 0;
       boxSpeed[0] = mouseSpeed[0];
       boxSpeed[1] = mouseSpeed[1];
